@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To My One and Only</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <style>
+    body {
+      background: #A3B18A;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+
+    .envelope-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    }
+
+    .envelope-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url('6558971.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(0px);
+    transform: scale(1.05);
+    }
+
+
+    .container.open ~ .envelope-bg {
+    opacity: 0;
+    pointer-events: none;
+    }
+
+
+    .tap-msg {
+      margin-bottom: 20px;
+      font-size: 20px;
+      color: #6F5840;
+      animation: pulse 1.5s infinite;
+      font-weight: bold;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .container {
+      position: relative;
+      width: 400px;
+      height: 280px;
+      cursor: pointer;
+      transition: all 0.8s ease;
+    }
+
+    .envelope {
+      background: #6F5840;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      position: absolute;
+      z-index: 2;
+      overflow: hidden;
+    }
+
+    .flap {
+      background: #5a4735;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      position: absolute;
+      width: 100%;
+      height: 50%;
+      top: 0;
+      left: 0;
+      z-index: 3;
+      transform-origin: top;
+      transition: transform 0.8s ease;
+      transform: rotateX(0deg);
+    }
+
+    .letter {
+      background: white;
+      width: 92%;
+      height: 91%;
+      margin: auto;
+      position: absolute;
+      top: 10px;
+      left: 0;
+      right: 0;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      z-index: 1;
+    }
+
+    .message {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      /*background: #A3B18A;*/
+      background: url('6535285.jpg') no-repeat center center;
+      background-size: cover;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+      z-index: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    .close-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #6F5840;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      
+    }
+
+
+    .container.open .flap {
+      transform: rotateX(-120deg);
+    }
+
+    .container.open {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+
+    .message.show {
+      z-index: 4;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .close-btn.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .letter-body {
+      max-width: 700px;
+      width: 100%;
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      color: #333;
+      font-size: 16px;
+      line-height: 1.8;
+      text-align: justify;
+      margin: 0 auto 40px auto;
+    }
+
+    .letter-body h2 {
+      color: #6F5840;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .letter-body p {
+      margin: 15px 0;
+      white-space: pre-line;
+    }
+
+    .letter-body .signature {
+      margin-top: 30px;
+      text-align: right;
+      font-style: italic;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        width: 90%;
+        height: 200px;
+      }
+
+      .letter-body {
+        padding: 20px;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+      
+      .message {
+        padding: 10px;
+      }
+      
+      .close-btn {
+        top: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="envelope-bg"></div>
+
+  <div class="tap-msg">Hover the Envelope</div>
+
+  <div title="For you My Kett!" class="container" onclick="openLetter()">
+    <div title="For you My Kett!" class="flap"></div>
+    <div class="envelope">
+      <div class="letter"></div>
+    </div>
+  </div>
+
+  <div class="message">
+    <div class="letter-body">
+      <h2>To My dearest Kett,</h2>
+      <p>
+        June 8, 2025 8:46 PM
+
+        Good evening My Kett,
+
+This message won’t be like the others I’ve written before. This one is only for you straight from my heart.
+
+I know this might feel sudden, but I’ve come to realize the mistakes I made. I can’t blame you for how you reacted... it was me. My decisions, my overthinking they hurt you.
+
+I told you before that it wouldn’t happen again. But here we are. I cried in front of you... and I know you didn’t want to see me like that. You didn’t want me to become that person. I acted foolishly. I only thought about myself. I don't know how you can forgive me on what I did.. I keep on saying I'm not gonna be like that but..in my perspective it is not but...I don't think about your perspective about me... You see the resemblance of it and your afraid... I'm ashamed of myself that I keep on saying it... I don't know how you can forgive me but I'm trying to be better, better for you and better for myself. 
+
+Please know this, my Kett you never hurt me. I’m not lying. My overthinking hurt me. It’s not your fault, remember that. It all came from how deeply I love you. I don’t know how to put that love into perfect words, but I hope someday you’ll understand it.
+
+I hope you heal not just from my mistakes, but from any pain you carry. I’m not going to force you into anything. I’ll give you time and space to heal. I miss your genuine and happy version of yourself, I hope you feel better if you read this message of mine.
+
+While writing this message of mine... I know you're crying...the pain that I don't know I given to you... I'm ashamed of myself why I did that. All the things that you have done for me, the decision that you made to make me happy.. the decision you choose not to go to abroad to study because You think about me...You choose me over to that.. I'm really really grateful for all the decision and the things you did for me. I don't know how to pay that back... I'm very very sorry for the things that I have done. I'm not writing this because I want to get you again...I just want to apologize for what I did. I'm not expecting you to forgive me about what I did to feel you that.
+I don't know how to express how truly sorry I'm for what I did... All I can do is to write this letter. 
+
+I know actions tell more than words. I hope that all the things I said to you are the things that I will do, not just say or tell you... I'm gonna do it, I'm gonna change for you. This is my first time and this is the first time I hurt a girl that truly loves me.. I'm here to apologize, I know I can't prove it by just saying this. I'll change. I know you are disappointed about me, my promise that I'm not gonna be like that. I'll change and try to fix that not just for you but also for myself.
+
+I don't want you to feel like this. I promise myself I will be gentle with you but what happen to me? I don't want to hurt the only one girl that show me everything, feel me everything for the first time. I just want you to know that I'm learning and growing, not just for you but for us. This letter what I'm writing is not just an apology, it's a promise to myself, a promise that I will do everything I can do to rebuild your trust, to be better, to love you in the way you deserve. I know we don't have that kind of label or anything. And you said to me that you don't need to feel like this because we don't have a label.. And I already told you this and reminded me that giving all your love is not ok but... I SEE you because you are WORTHY of my 100% I want to love you with my full heart not just 50/50 I'll be honest here. If I can hug you so tight right now I'll do it. Just to prove that I really really want to apologize for my actions
+
+
+This is the things that I realized after both of us talk about that night. I don't have a chance to tell you this in person so here we are... You know why I suddenly feel happy that day? Because I realized this. It's like a puzzle that missing for a long time and I finally see it. I hope that this puzzle answers it all. That puzzle said to me that day, "I’m Here, Not to Hold You Down But to Hold Space for You".
+
+
+Why is that thing made me realize it all?
+
+what it truly means to love someone like you, someone whose heart has known both tenderness and fear. And I want you to know this..
+
+I don’t want to rush you.
+I don’t want to change you. Even though I already said it on the past that we can change what you fear. I learned from my mistakes so I'm here doing the right thing that I feel right
+
+I don’t want to make you feel like you're under pressure just because I love you.
+
+I know that sometimes, love feels heavy to you. That closeness can bring more fear than comfort. That silence isn’t always distance it’s protection. And I want you to know...
+I understand that now.
+
+If you're afraid I’m absorbing your energy, like you're weighing me down or pulling me into something you’re trying to carry alone let me tell you honestly:
+You’re not.
+What I feel is not heaviness from you, but a deep desire to hold space for you, without making you feel responsible for my emotions.
+
+I’ve learned that real love isn’t loud. Based on our 1 day exchange of words on how we see things.
+It’s not always in the words, or the touches, or even the time.
+Sometimes it’s just being present, even in silence.
+Sometimes, it’s just being steady, even when the other person needs space.
+
+I want to be that for you.
+
+Not the kind of man who demands answers, or forces closeness when you’re not ready.
+But the kind of man who makes closeness feel safe, who loves you quietly even from a distance until you’re ready to step closer.
+
+If there’s one thing I can promise, it’s that I won’t love you out of need. I’ll love you out of choice, patience, and respect.
+
+Kett, I know your pain feels endless right now. But I promise, this is not the end. You are loved more than your sadness tells you. I see your worth, even when you can’t. Please stay and be brave. I want you to know this..you don’t have to carry it alone. Maybe the days feel heavy, maybe your heart feels too tired but even if you feel like giving up, I am not giving up on you. And I hope you don’t give up also.
+
+I still see the beautiful soul behind the silence. I still believe in your light, even when you can’t feel it yourself.
+
+I’m not here to fix everything or to force you to smile. I’m here to hold your hand through the fight you dealing, whether we talk, cry, or just sit in silence. You don’t need to be "okay" to be loved. You’re allowed to feel broken. You’re allowed to rest. But please don’t disappear. Not while you still have stories to write, people who care, and love that surrounds you even in the dark.
+
+I don’t know how long I’ll take to finish this message that I'm writting....I think day by day I have a words to tell that sometimes I feel it is too much, (I don’t even know how long this letter will make. I want to keep it short but I think its long now HAHAHAHHAHA sorry if I wrote this kind of long letter.)
+
+If your wondering how the hell do I get this kind of thing, like this long message.. I think the big influence is that I read a lot and watch movies that I don’t know I apply to this.. My grammar is not that good so sometimes I search and ask OUR BEST FRIEND you know who is it HAHAHAHAH. but all of this is came straightout of my mind especially my heart. It tells me that I need to do say all of this.
+
+You are not alone, Kett. Not now. Not ever.
+You are not a burden.
+You are not too much.
+You are simply human, hurting, healing, surviving.
+
+If all you can do today is breathe, then breathe. I’ll be here for the next breath, and the next one after that.
+
+You’re still here. And that’s already brave.
+
+I love you. That hasn’t changed and it never will.
+
+So even when I overthink, even when I miss you deeply in your quiet moments, I will remind myself that what matters most is not how quickly we get somewhere but how real it is when we do.
+
+Take all the time you need, Kett.
+Not asking for more, but offering everything I already feel.
+Not clinging, but caring.
+
+And when you’re ready whether that’s tomorrow, next month, or next year know that I’m still here. And that this love I’m building for you, it’s not temporary. It’s something I want to give not to trap you, but to free you to help you believe that you can be loved without losing yourself.
+
+Until then, I’ll be here. Waiting. Still loving you, just as deeply as I did the first time I fell for you.
+
+I’m not saying goodbye. I’m always here if you need me no matter what.
+That’s all you need to hear from me. No need to reply.
+
+I'm truly sorry.
+      </p>
+      <div class="signature"><br>Vin</div>
+    </div>
+  </div>
+
+  <button class="close-btn" onclick="closeLetter()">×</button>
+
+  <audio id="music" src="hm.mp3" preload="auto"></audio>
+
+  <script>
+    const music = document.getElementById('music');
+    music.volume = 0.05;
+    music.loop = true;
+
+
+
+    function openLetter() {
+      document.querySelector('.container').classList.add('open');
+      document.querySelector('.message').classList.add('show');
+      document.querySelector('.close-btn').classList.add('show');
+      music.play();
+
+    }
+    
+    function closeLetter() {
+      document.querySelector('.container').classList.remove('open');
+      document.querySelector('.message').classList.remove('show');
+      document.querySelector('.close-btn').classList.remove('show');
+
+
+    }
+
+    function closeLetter() {
+      document.querySelector('.container').classList.remove('open');
+      document.querySelector('.message').classList.remove('show');
+      document.querySelector('.close-btn').classList.remove('show');
+      music.pause();
+      
+
+      setTimeout(() => {
+        document.querySelector('.container').style.opacity = '1';
+        document.querySelector('.container').style.pointerEvents = 'auto';
+      }, 800);
+    }
+  </script>
+
+</body>
+</html>
